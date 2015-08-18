@@ -1,0 +1,2 @@
+find from -type f -name '*.ts' -print0 | xargs --max-args=1 -0 -I{} tsencoder/encode.sh {} done
+find from -type f -name '*.mp4' -print0 | xargs --max-args=1 -0 -I{} ffmpeg -i {} 2>&1 | grep -e 'Stream\|Input' | vim -
