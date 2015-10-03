@@ -85,8 +85,9 @@ MAP=`ffmpeg -i "$1" 2>&1 | sed 's/^[ ]*//g' | awk '
 		printLists();
 	}'`
 
+THREADS=3
 if [  "" != "${MAP}" ]; then
-	nice -n 19 ffmpeg -y -fflags discardcorrupt -i "$1" -f mp4 -vcodec libx264 -vpre libx264-hq-ts -r 30000/1001 -aspect 16:9 -s 1440x1080 -bufsize 20000k -maxrate 25000k -vsync 1 -movflags faststart -vf "w3fdif=complex:interlaced" -acodec libvo_aacenc -aq 100 -bsf aac_adtstoasc -threads 4 ${MAP} "$1".mp4.tmp
+	nice -n 19 ffmpeg -y -fflags discardcorrupt -i "$1" -f mp4 -vcodec libx264 -vpre libx264-hq-ts -r 30000/1001 -aspect 16:9 -s 1440x1080 -bufsize 20000k -maxrate 25000k -vsync 1 -movflags faststart -vf "w3fdif=complex:interlaced" -acodec libvo_aacenc -aq 100 -bsf aac_adtstoasc -threads ${THREADS} ${MAP} "$1".mp4.tmp
 	RESULT=$?
 	if [ ${RESULT} = 0 ]; then
 		echo
